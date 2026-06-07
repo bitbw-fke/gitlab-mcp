@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:lts-alpine
 
 WORKDIR /app
 
@@ -6,14 +6,15 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm ci --omit=dev
 
 # Copy application code
-COPY . .
+COPY dist/* ./
 
 # Set environment variables for gitlab
 # These should be provided at runtime for security purposes
 ENV MR_MCP_GITLAB_TOKEN your_gitlab_token
 
-# Command will be provided by smithery.yaml
+EXPOSE 3000
+
 CMD ["node", "index.js"]
