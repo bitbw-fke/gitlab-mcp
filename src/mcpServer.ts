@@ -6,7 +6,7 @@ import z from "zod";
 // Initialize GitLab API Client
 const gitlabToken = process.env.MR_MCP_GITLAB_TOKEN;
 if (!gitlabToken) {
-    console.error("Error: MR_MCP_GITLAB_TOKEN environment variable is not set.");
+    throw new Error("Error: MR_MCP_GITLAB_TOKEN environment variable is not set.");
 }
 
 const api = new Gitlab({
