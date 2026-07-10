@@ -338,6 +338,31 @@ const getServer = () => {
             }
         }
     );
+
+    server.registerTool(
+        "create_merge_request",
+        {
+            description: "Create a new merge request",
+            inputSchema: z.object({
+                project_id: z.number().describe("The project ID of the merge request"),
+                source_branch: z.string().describe("The source branch of the merge request"),
+                target_branch: z.string().describe("The target branch of the merge request"),
+                title: z.string().describe("The title of the merge request"),
+                description: z.string().optional().describe("The description of the merge request"),
+            })
+        },
+        async ({ project_id, source_branch, target_branch, title, description }) => {
+            try {
+                const mr = await api.MergeRequests.create(project_id, source_branch, target_branch, title, { description });
+                return {
+                    content: [{ type: "text", text: JSON.stringify(mr, null, 2) }],
+                };
+            } catch (error) {
+                return formatErrorResponse(error);
+            }
+        }
+    );
+
     return server;
 }
 
