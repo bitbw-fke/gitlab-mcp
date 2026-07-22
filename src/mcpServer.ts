@@ -191,7 +191,7 @@ const getServer = () => {
         },
         async ({ project_id, merge_request_iid, comment }) => {
             try {
-                const note = await api.MergeRequestDiscussions.create(project_id, merge_request_iid, comment);
+                const note = await api.MergeRequestNotes.create(project_id, merge_request_iid, comment);
                 return {
                     content: [{ type: "text", text: JSON.stringify(note, null, 2) }],
                 };
